@@ -22,18 +22,27 @@ import { FlatList } from "react-native";
 
 const Home = () => {
   const { repositories } = useContext(RepositoryContext);
-
+  {
+    /* appswefit<TextBold>/create-react-app</TextBold> */
+  }
   return (
     <Container>
       <FlatList
         data={repositories}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <>
-            <RepositoryContainer>
+        renderItem={({ item }) => <></>}
+      />
+    </Container>
+  );
+};
+
+export default Home;
+
+{
+  /* <RepositoryContainer>
               <HeaderTitleRepository>
                 <Text>
-                  {/* appswefit<TextBold>/create-react-app</TextBold> */}
+                
                   {item.name}
                 </Text>
                 <IconWefit source={IconImageWefit} />
@@ -61,12 +70,5 @@ const Home = () => {
                   color="#F22828"
                 />
               </RepositoryItensContainer>
-            </RepositoryContainer>
-          </>
-        )}
-      />
-    </Container>
-  );
-};
-
-export default Home;
+            </RepositoryContainer> */
+}

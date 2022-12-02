@@ -4,7 +4,7 @@ import UserSelectionModal from "../components/UserSelectionModal";
 
 type Children = { children: JSX.Element };
 
-type Repository = {
+export type Repository = {
   id: number;
   name: string;
   owner: { name: string; avatar: string };
