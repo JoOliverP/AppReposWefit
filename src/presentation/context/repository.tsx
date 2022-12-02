@@ -1,5 +1,5 @@
-
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import { api } from "../../infrastructure/http/GitHubApi";
 import UserSelectionModal from "../components/UserSelectionModal";
 
 type Children = { children: JSX.Element };
@@ -25,7 +25,7 @@ export type RepositoryContextData = {
 };
 
 export const RepositoryContext = createContext<RepositoryContextData>(
-  {} as RepositoryContextData,
+  {} as RepositoryContextData
 );
 
 export const RepositoryProvider = ({ children }: Children) => {
@@ -46,7 +46,19 @@ export const RepositoryProvider = ({ children }: Children) => {
 
   const getUserRepositories = async (user: string) => {
     // TODO
+    try {
+      const response = await api.get("/jooliverp/repos");
+
+      setRepositories(response.data);
+      // console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    getUserRepositories(repositoryOwner);
+  }, []);
 
   return (
     <RepositoryContext.Provider
@@ -56,12 +68,14 @@ export const RepositoryProvider = ({ children }: Children) => {
         getUserRepositories,
         toggleUserSelectionModal,
         addFavoriteRepository,
-        removeFavoriteRepository
+        removeFavoriteRepository,
       }}
     >
       {children}
-      <UserSelectionModal visible={showModal} onClose={() => setShowModal(false)} />
+      <UserSelectionModal
+        visible={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </RepositoryContext.Provider>
   );
 };
-

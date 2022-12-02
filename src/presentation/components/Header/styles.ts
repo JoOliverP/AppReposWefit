@@ -11,7 +11,9 @@ export const Container = styled.View`
 `;
 
 export const Text = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.BOLD};
+  font-family: ${({ theme }) => theme.fonts.MEDIUM};
+  font-style: normal;
+  
   font-size: 20px;
   color: ${({ theme }) => theme.colors.BLACK};
 `;
