@@ -17,6 +17,8 @@ export type Repository = {
 
 export type RepositoryContextData = {
   repositories: Repository[];
+  repositoryOwner: string;
+  setRepositoryOwner: React.Dispatch<React.SetStateAction<string>>;
   favorites: Repository[];
   getUserRepositories: (user: string) => Promise<void>;
   toggleUserSelectionModal: () => void;
@@ -45,12 +47,10 @@ export const RepositoryProvider = ({ children }: Children) => {
   };
 
   const getUserRepositories = async (user: string) => {
-    // TODO
     try {
-      const response = await api.get("/jooliverp/repos");
+      const response = await api.get(`/${repositoryOwner}/repos`);
 
       setRepositories(response.data);
-      // console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -58,12 +58,14 @@ export const RepositoryProvider = ({ children }: Children) => {
 
   useEffect(() => {
     getUserRepositories(repositoryOwner);
-  }, []);
+  }, [repositoryOwner]);
 
   return (
     <RepositoryContext.Provider
       value={{
         repositories,
+        repositoryOwner,
+        setRepositoryOwner,
         favorites,
         getUserRepositories,
         toggleUserSelectionModal,

@@ -7,7 +7,6 @@ import Home from "../flows/repositories/home";
 import Favorites from "../flows/favorites";
 import { useRepository } from "../hooks/useRepository";
 import { FontAwesome } from "@expo/vector-icons";
-import { Image } from "react-native";
 
 const Tab = createBottomTabNavigator();
 

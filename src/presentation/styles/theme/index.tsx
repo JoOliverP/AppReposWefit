@@ -5,6 +5,7 @@ export default {
     GRAY_3: "#DADADA",
     GRAY_4: "#9A9A9A",
     BLACK: "#000000",
+    BLUE: "#1976D2",
   },
   fonts: {
     REGULAR: "Inter_400Regular",

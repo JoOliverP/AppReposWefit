@@ -19,6 +19,7 @@ import IconImageWefit from "../../../../presentation/assets/images/wefitIcon.png
 import ItemIconText from "../../../components/ItemIconText";
 import { RepositoryContext } from "../../../context/repository";
 import { FlatList } from "react-native";
+import GroupCardRepositories from "../../../components/GroupCardRepositories";
 
 const Home = () => {
   const { repositories } = useContext(RepositoryContext);
@@ -30,7 +31,9 @@ const Home = () => {
       <FlatList
         data={repositories}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <></>}
+        renderItem={({ item }) => (
+          <GroupCardRepositories displayButtonFavorite data={item} />
+        )}
       />
     </Container>
   );

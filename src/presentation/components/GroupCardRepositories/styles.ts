@@ -56,7 +56,7 @@ export const ButtonFavorite = styled(TouchableOpacity)`
 
 
 export const TextFavoriteButton = styled.Text`
-  margin-left: 10;
+  margin-left: 10px;
   font-weight: bold;
   font-size: 12px;
   color: #FFD02C;
