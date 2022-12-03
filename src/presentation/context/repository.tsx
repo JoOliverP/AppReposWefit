@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
 import { api } from "../../infrastructure/http/GitHubApi";
 import UserSelectionModal from "../components/UserSelectionModal";
@@ -39,7 +40,15 @@ export const RepositoryProvider = ({ children }: Children) => {
   const toggleUserSelectionModal = () => setShowModal((value) => !value);
 
   const addFavoriteRepository = async (repository: Repository) => {
-    // TODO
+    setFavorites((prevState) => [...prevState, repository]);
+
+    try {
+      await AsyncStorage.setItem("@favorites", JSON.stringify(favorites));
+
+      const favoritesRepositories = await AsyncStorage.getItem("@favorites");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const removeFavoriteRepository = async (repository: Repository) => {

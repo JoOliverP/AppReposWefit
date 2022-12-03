@@ -7,7 +7,7 @@ export const Text = styled.Text`
   color: ${({ theme }) => theme.colors.BLACK};
 `;
 
-export const RepositoryContainer = styled.View`
+export const RepositoryContainer = styled(TouchableOpacity)`
    margin: 16px;
    flex-direction: column;
    background-color: ${({ theme }) => theme.colors.GRAY_2};

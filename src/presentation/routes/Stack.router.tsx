@@ -29,6 +29,13 @@ export default function StackRouter() {
       <Stack.Screen
         name="Details"
         component={Details}
+        options={{
+          title: "Detalhes",
+          headerStyle: {
+            backgroundColor: "#000000",
+          },
+          headerTintColor: "#fff",
+        }}
       />
     </Stack.Navigator>
   );

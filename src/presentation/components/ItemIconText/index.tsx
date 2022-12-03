@@ -1,6 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import React from "react";
-import { Container, RepositoryStarCount, TextRepositoryItens } from "./styles";
+import { Container, TextRepositoryItens } from "./styles";
 
 type Props = {
   title: string | number;
@@ -12,10 +12,10 @@ type Props = {
 
 const ItemIconText = ({ title, color, size, icon, onPress }: Props) => {
   return (
-    <RepositoryStarCount>
+    <Container>
       <FontAwesome name={icon} size={size} color={color} />
       <TextRepositoryItens>{title}</TextRepositoryItens>
-    </RepositoryStarCount>
+    </Container>
   );
 };
 

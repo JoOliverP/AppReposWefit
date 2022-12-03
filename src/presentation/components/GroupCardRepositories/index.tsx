@@ -13,8 +13,9 @@ import {
 import { FontAwesome } from "@expo/vector-icons";
 import IconImageWefit from "../../../presentation/assets/images/wefitIcon.png";
 
-import { Repository } from "../../context/repository";
+import { Repository, RepositoryContext } from "../../context/repository";
 import ItemIconText from "../ItemIconText";
+import { useNavigation } from "@react-navigation/native";
 
 type Props = {
   data: Repository;
@@ -22,8 +23,19 @@ type Props = {
 };
 
 const GroupCardRepositories = ({ data, displayButtonFavorite }: Props) => {
+  const navigation = useNavigation() as any;
+  const { addFavoriteRepository } = useContext(RepositoryContext);
+
+  const handleSaveFavoriteRepository = async (data: Repository) => {
+    addFavoriteRepository(data);
+  };
+
+  const handleNavigateDetails = (data: Repository) => {
+    navigation.navigate("Details", data);
+  };
+
   return (
-    <RepositoryContainer>
+    <RepositoryContainer onPress={() => handleNavigateDetails(data)}>
       <HeaderTitleRepository>
         <Text>
           {/* appswefit<TextBold>/create-react-app</TextBold> */}
@@ -39,7 +51,11 @@ const GroupCardRepositories = ({ data, displayButtonFavorite }: Props) => {
         {displayButtonFavorite ? (
           <ButtonFavorite>
             <FontAwesome name="star" size={20} color="#FFD02C" />
-            <TextFavoriteButton>Favoritar</TextFavoriteButton>
+            <TextFavoriteButton
+              onPress={() => handleSaveFavoriteRepository(data)}
+            >
+              Favoritar
+            </TextFavoriteButton>
           </ButtonFavorite>
         ) : (
           <></>
