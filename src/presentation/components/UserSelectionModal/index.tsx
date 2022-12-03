@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { useModalize } from "react-native-modalize";
 import { RepositoryContext } from "../../context/repository";
@@ -20,10 +20,16 @@ type Props = {
 const UserSelectionModal = ({ visible, onClose }: Props) => {
   const { ref, open, close } = useModalize();
   const { repositoryOwner, setRepositoryOwner } = useContext(RepositoryContext);
+  const [textNameRepository, setTextNameRepository] = useState("");
 
   useEffect(() => {
     visible ? open() : close();
   }, [visible]);
+
+  const handleSaveNameOwneRepository = () => {
+    setRepositoryOwner(textNameRepository);
+    close();
+  };
 
   return (
     <Container ref={ref} onClose={onClose}>
@@ -34,12 +40,16 @@ const UserSelectionModal = ({ visible, onClose }: Props) => {
 
         <TextInputOwner
           placeholder={repositoryOwner}
-          onChangeText={(text) => setRepositoryOwner(text)}
+          onChangeText={(text) => setTextNameRepository(text)}
         />
       </ContainerInputText>
       <ButtonsGroup>
         <Button title="cancelar" onPress={() => close()} />
-        <Button title="salvar" type="PRIMARY" />
+        <Button
+          title="salvar"
+          type="PRIMARY"
+          onPress={handleSaveNameOwneRepository}
+        />
       </ButtonsGroup>
     </Container>
   );
