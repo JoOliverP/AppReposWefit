@@ -11,11 +11,12 @@ import {
   TextFavoriteButton,
 } from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
-import IconImageWefit from "../../../presentation/assets/images/wefitIcon.png";
 
 import { Repository, RepositoryContext } from "../../context/repository";
 import ItemIconText from "../ItemIconText";
 import { useNavigation } from "@react-navigation/native";
+
+import IconImageWefit from "../../assets/images/iconWefit.png";
 
 type Props = {
   data: Repository;
@@ -24,9 +25,10 @@ type Props = {
 
 const GroupCardRepositories = ({ data, displayButtonFavorite }: Props) => {
   const navigation = useNavigation() as any;
+
   const { addFavoriteRepository } = useContext(RepositoryContext);
 
-  const handleSaveFavoriteRepository = async (data: Repository) => {
+  const handleSaveFavoriteRepository = (data: Repository) => {
     addFavoriteRepository(data);
   };
 
@@ -37,14 +39,10 @@ const GroupCardRepositories = ({ data, displayButtonFavorite }: Props) => {
   return (
     <RepositoryContainer onPress={() => handleNavigateDetails(data)}>
       <HeaderTitleRepository>
-        <Text>
-          {/* appswefit<TextBold>/create-react-app</TextBold> */}
-          {data.name}
-        </Text>
+        <Text>{data.name}</Text>
         <IconWefit source={IconImageWefit} />
       </HeaderTitleRepository>
       <Line />
-
       <TextInfoRepository>{data.description}</TextInfoRepository>
 
       <RepositoryItensContainer>
@@ -68,7 +66,7 @@ const GroupCardRepositories = ({ data, displayButtonFavorite }: Props) => {
           color="#FFD02C"
         />
         <ItemIconText
-          title={data.language}
+          title={data.language ? data.language : "Sem linguagem"}
           size={8}
           icon="circle"
           color="#F22828"

@@ -5,7 +5,7 @@ import { ButtonTypeStyleProps, Container, Text } from "./styles";
 
 type Props = TouchableOpacityProps & {
   title: string | number;
-  color: string;
+  color?: string;
   icon: keyof typeof Ionicons.glyphMap;
   type?: ButtonTypeStyleProps;
 };

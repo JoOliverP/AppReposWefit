@@ -1,11 +1,6 @@
 import { TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 
-export const Text = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.REGULAR};
-  font-size: 13px;
-  color: ${({ theme }) => theme.colors.BLACK};
-`;
 
 export const RepositoryContainer = styled(TouchableOpacity)`
    margin: 16px;
@@ -25,7 +20,16 @@ export const Line = styled.View`
   border: 1px solid ${({ theme }) => theme.colors.GRAY_3};
 `
 
+export const Text = styled.Text`
+  font-family: ${({ theme }) => theme.fonts.REGULAR};
+  font-size: 13px;
+  color: ${({ theme }) => theme.colors.BLACK};
+`;
+
 export const IconWefit = styled.Image`
+  position: absolute;
+  right: 0;
+  top: 0;
   width: 30px;
   height: 30px;
 `

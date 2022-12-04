@@ -7,10 +7,9 @@ type Props = {
   color: string;
   size: number;
   icon: keyof typeof FontAwesome.glyphMap;
-  onPress?: () => void;
 };
 
-const ItemIconText = ({ title, color, size, icon, onPress }: Props) => {
+const ItemIconText = ({ title, color, size, icon }: Props) => {
   return (
     <Container>
       <FontAwesome name={icon} size={size} color={color} />

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import { useModalize } from "react-native-modalize";
 import { RepositoryContext } from "../../context/repository";
 import Button from "../Button";
@@ -39,7 +38,7 @@ const UserSelectionModal = ({ visible, onClose }: Props) => {
         <Placeholder>Nome do usuário</Placeholder>
 
         <TextInputOwner
-          placeholder={repositoryOwner}
+          defaultValue={repositoryOwner}
           onChangeText={(text) => setTextNameRepository(text)}
         />
       </ContainerInputText>

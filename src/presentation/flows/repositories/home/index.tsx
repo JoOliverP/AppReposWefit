@@ -1,77 +1,27 @@
 import React, { useContext } from "react";
-import {
-  Container,
-  Text,
-  TextBold,
-  RepositoryContainer,
-  HeaderTitleRepository,
-  IconWefit,
-  TextInfoRepository,
-  Line,
-  RepositoryItensContainer,
-  ButtonFavorite,
-  TextFavoriteButton,
-  RepositoryStarCount,
-  TextRepositoryItens,
-} from "./styles";
-import { FontAwesome } from "@expo/vector-icons";
-import IconImageWefit from "../../../../presentation/assets/images/wefitIcon.png";
-import ItemIconText from "../../../components/ItemIconText";
-import { RepositoryContext } from "../../../context/repository";
 import { FlatList } from "react-native";
+import { RepositoryContext } from "../../../context/repository";
 import GroupCardRepositories from "../../../components/GroupCardRepositories";
+import { Container } from "./styles";
 
 const Home = () => {
-  const { repositories } = useContext(RepositoryContext);
-  {
-    /* appswefit<TextBold>/create-react-app</TextBold> */
-  }
+  const { repositories, favoritesIds } = useContext(RepositoryContext);
+
   return (
     <Container>
       <FlatList
         data={repositories}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (
-          <GroupCardRepositories displayButtonFavorite data={item} />
-        )}
+        renderItem={({ item }) => {
+          if (favoritesIds.includes(item.id)) {
+            return <></>;
+          } else {
+            return <GroupCardRepositories displayButtonFavorite data={item} />;
+          }
+        }}
       />
     </Container>
   );
 };
 
 export default Home;
-
-{
-  /* <RepositoryContainer>
-              <HeaderTitleRepository>
-                <Text>
-                
-                  {item.name}
-                </Text>
-                <IconWefit source={IconImageWefit} />
-              </HeaderTitleRepository>
-              <Line />
-
-              <TextInfoRepository>{item.description}</TextInfoRepository>
-
-              <RepositoryItensContainer>
-                <ButtonFavorite>
-                  <FontAwesome name="star" size={20} color="#FFD02C" />
-                  <TextFavoriteButton>Favoritar</TextFavoriteButton>
-                </ButtonFavorite>
-
-                <ItemIconText
-                  title={item.stars ? item.stars : "0"}
-                  size={20}
-                  icon="star"
-                  color="#FFD02C"
-                />
-                <ItemIconText
-                  title={item.language}
-                  size={8}
-                  icon="circle"
-                  color="#F22828"
-                />
-              </RepositoryItensContainer>
-            </RepositoryContainer> */
-}

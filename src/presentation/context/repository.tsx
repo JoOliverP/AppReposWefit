@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
 import { api } from "../../infrastructure/http/GitHubApi";
 import UserSelectionModal from "../components/UserSelectionModal";
+import Toast from "react-native-simple-toast";
 
 type Children = { children: JSX.Element };
 
@@ -11,6 +12,7 @@ export type Repository = {
   owner: { name: string; avatar: string };
   description: string;
   url: string;
+  html_url: string;
   language: string;
   stars: number;
   favorite: boolean;
@@ -21,6 +23,8 @@ export type RepositoryContextData = {
   repositoryOwner: string;
   setRepositoryOwner: React.Dispatch<React.SetStateAction<string>>;
   favorites: Repository[];
+  favoritesIds: Number[];
+  setFavoritesIds: React.Dispatch<React.SetStateAction<Number[]>>;
   getUserRepositories: (user: string) => Promise<void>;
   toggleUserSelectionModal: () => void;
   addFavoriteRepository: (repository: Repository) => void;
@@ -36,37 +40,73 @@ export const RepositoryProvider = ({ children }: Children) => {
   const [favorites, setFavorites] = useState<Repository[]>([]);
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [repositoryOwner, setRepositoryOwner] = useState("appswefit");
+  const [favoritesIds, setFavoritesIds] = useState<Number[]>([]);
 
   const toggleUserSelectionModal = () => setShowModal((value) => !value);
 
   const addFavoriteRepository = async (repository: Repository) => {
-    setFavorites((prevState) => [...prevState, repository]);
-
     try {
-      await AsyncStorage.setItem("@favorites", JSON.stringify(favorites));
+      setFavorites([...favorites, repository]);
 
-      const favoritesRepositories = await AsyncStorage.getItem("@favorites");
+      setFavoritesIds([...favoritesIds, repository.id]);
+
+      await AsyncStorage.setItem(
+        "@favoritesIds",
+        JSON.stringify([...favoritesIds, repository.id])
+      );
+
+      await AsyncStorage.setItem(
+        "@favorites",
+        JSON.stringify([...favorites, repository])
+      );
     } catch (error) {
+      Toast.show("Não foi possível favoritar repositório!");
       console.log(error);
     }
   };
 
   const removeFavoriteRepository = async (repository: Repository) => {
-    // TODO
+    try {
+      const ids = favoritesIds.filter(
+        (favoriteId) => favoriteId !== repository.id
+      );
+
+      setFavoritesIds(ids);
+
+      await AsyncStorage.setItem("@favoritesIds", JSON.stringify(ids));
+
+      const newFavorites = favorites.filter(
+        (favorite) => favorite.id !== repository.id
+      );
+
+      setFavorites(newFavorites);
+
+      await AsyncStorage.setItem("@favorites", JSON.stringify(newFavorites));
+    } catch (error) {}
   };
 
   const getUserRepositories = async (user: string) => {
     try {
-      const response = await api.get(`/${repositoryOwner}/repos`);
+      let ids = await AsyncStorage.getItem("@favoritesIds");
+      const arrayDataId = JSON.parse(String(ids));
 
+      setFavoritesIds(arrayDataId);
+
+      let favorites = await AsyncStorage.getItem("@favorites");
+      const arrayDataFavorites = JSON.parse(String(favorites));
+      setFavorites(arrayDataFavorites);
+
+      const response = await api.get(`/${repositoryOwner}/repos`);
       setRepositories(response.data);
     } catch (error) {
       console.log(error);
+      Toast.show("Não foi possível encontrar usuário!");
     }
   };
 
   useEffect(() => {
     getUserRepositories(repositoryOwner);
+    // AsyncStorage.clear();
   }, [repositoryOwner]);
 
   return (
@@ -76,6 +116,8 @@ export const RepositoryProvider = ({ children }: Children) => {
         repositoryOwner,
         setRepositoryOwner,
         favorites,
+        favoritesIds,
+        setFavoritesIds,
         getUserRepositories,
         toggleUserSelectionModal,
         addFavoriteRepository,

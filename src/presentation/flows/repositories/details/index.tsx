@@ -1,9 +1,10 @@
-import { useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useContext } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Linking } from "react-native";
-import Button from "../../../components/Button";
+
 import ButtonIcon from "../../../components/ButtonIcon";
 import ItemIconText from "../../../components/ItemIconText";
+import { Repository, RepositoryContext } from "../../../context/repository";
 import {
   Container,
   ContentRepository,
@@ -12,20 +13,24 @@ import {
   ButtonGroup,
 } from "./styles";
 
-type RepositoryParams = {
-  name: string;
-  description: string;
-  language: string;
-  html_url: string;
-};
-
 const Details = () => {
+  const { favoritesIds, addFavoriteRepository, removeFavoriteRepository } =
+    useContext(RepositoryContext);
   const route = useRoute();
-  const repository = route.params as RepositoryParams;
+  const repository = route.params as Repository;
 
   const handleOpenLink = (url: string) => {
     Linking.openURL(url);
   };
+
+  const handleAddFavorite = (repository: Repository) => {
+    addFavoriteRepository(repository);
+  };
+
+  const handleDisfavor = (repository: Repository) => {
+    removeFavoriteRepository(repository);
+  };
+
   return (
     <Container>
       <ContentRepository>
@@ -36,7 +41,7 @@ const Details = () => {
         <ItemIconText
           icon="circle"
           size={12}
-          title={repository.language}
+          title={repository.language ? repository.language : "Sem linguagem"}
           color="#F22828"
         />
       </ContentRepository>
@@ -48,12 +53,22 @@ const Details = () => {
           icon="link"
           onPress={() => handleOpenLink(repository.html_url)}
         />
-        <ButtonIcon
-          title="favoritar"
-          color="#000000"
-          icon="star"
-          type="SECONDARY"
-        />
+        {favoritesIds.includes(repository.id) ? (
+          <ButtonIcon
+            title="desfavoritar"
+            icon="star-outline"
+            type="TERTIARY"
+            onPress={() => handleDisfavor(repository)}
+          />
+        ) : (
+          <ButtonIcon
+            title="favoritar"
+            color="#000000"
+            icon="star"
+            type="SECONDARY"
+            onPress={() => handleAddFavorite(repository)}
+          />
+        )}
       </ButtonGroup>
     </Container>
   );
