@@ -24,7 +24,6 @@ export const Text = styled.Text`
 export const ContainerInputText = styled.View`
   margin-top: 10px;
   padding: 9px 12px;
-  /* margin: 16px; */
   background-color: ${({ theme }) => theme.colors.GRAY_3};
   color: ${({ theme }) => theme.colors.BLACK};
 `

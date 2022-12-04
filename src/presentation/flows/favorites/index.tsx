@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { FlatList, Text } from "react-native";
+import { FlatList } from "react-native";
 import GroupCardRepositories from "../../components/GroupCardRepositories";
 import { RepositoryContext } from "../../context/repository";
 import { Container } from "./styles";

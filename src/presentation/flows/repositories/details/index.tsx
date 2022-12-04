@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import { Linking } from "react-native";
 
 import ButtonIcon from "../../../components/ButtonIcon";
