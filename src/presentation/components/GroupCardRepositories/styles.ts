@@ -8,6 +8,15 @@ export const RepositoryContainer = styled(TouchableOpacity)`
    background-color: ${({ theme }) => theme.colors.GRAY_2};
    border-radius: 6px;
    padding: 16px;
+   /* shadowColor: "#000";
+    shadowOffset: {
+      width: 0;
+      height: 12;
+    };
+    shadowOpacity: 0.58;
+    shadowRadius: 16px;
+
+    elevation: 10; */
 `;
 
 export const HeaderTitleRepository = styled.View`

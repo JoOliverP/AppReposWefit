@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { createContext, useEffect, useState } from "react";
 import { api } from "../../infrastructure/http/GitHubApi";
 import UserSelectionModal from "../components/UserSelectionModal";
-import Toast from "react-native-simple-toast";
 
 type Children = { children: JSX.Element };
 
@@ -60,7 +59,6 @@ export const RepositoryProvider = ({ children }: Children) => {
         JSON.stringify([...favorites, repository])
       );
     } catch (error) {
-      Toast.show("Não foi possível favoritar repositório!");
       console.log(error);
     }
   };
@@ -88,19 +86,18 @@ export const RepositoryProvider = ({ children }: Children) => {
   const getUserRepositories = async (user: string) => {
     try {
       let ids = await AsyncStorage.getItem("@favoritesIds");
-      const arrayDataId = JSON.parse(String(ids));
+      const arrayDataId = JSON.parse(ids ? ids : "[]");
 
       setFavoritesIds(arrayDataId);
 
       let favorites = await AsyncStorage.getItem("@favorites");
-      const arrayDataFavorites = JSON.parse(String(favorites));
+      const arrayDataFavorites = JSON.parse(favorites ? favorites : "[]");
       setFavorites(arrayDataFavorites);
 
       const response = await api.get(`/${repositoryOwner}/repos`);
       setRepositories(response.data);
     } catch (error) {
       console.log(error);
-      Toast.show("Não foi possível encontrar usuário!");
     }
   };
 

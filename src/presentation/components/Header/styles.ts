@@ -8,6 +8,7 @@ export const Container = styled.View`
   align-items: center;
   padding: 40px 16px 16px;
   background-color: ${({ theme }) => theme.colors.GRAY_2};
+ 
 `;
 
 export const Text = styled.Text`
